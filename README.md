@@ -2,10 +2,7 @@
 
 This plugin for [Obsidian](https://obsidian.md/) uses Forces to automatically untangle your graph for you.
 
-<video width="640" height="360" controls>
-  <source src="images/the_untangling.webm" type="video/webm">
-  Your browser does not support the video tag.
-</video>
+![Untangling animation](images/the_untangling.gif)
 
 ## Local Installation
 
