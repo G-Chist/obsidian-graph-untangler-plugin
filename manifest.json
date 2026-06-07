@@ -1,0 +1,10 @@
+{
+  "id": "graph-untangler",
+  "name": "Graph Untangler",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Untangles the graph view by pulsing link forces.",
+  "author": "G-Chist",
+  "authorUrl": "",
+  "isDesktopOnly": false
+}
