@@ -1,10 +1,10 @@
 {
   "id": "graph-untangler",
   "name": "Graph Untangler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "0.15.0",
   "description": "Untangles the graph view by pulsing link forces.",
   "author": "G-Chist",
-  "authorUrl": "",
+  "authorUrl": "https://github.com/G-Chist/obsidian-graph-untangler-plugin",
   "isDesktopOnly": false
 }
