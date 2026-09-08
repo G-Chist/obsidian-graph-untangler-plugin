@@ -5,6 +5,6 @@
   "minAppVersion": "0.15.0",
   "description": "Untangles the graph view by pulsing link forces.",
   "author": "G-Chist",
-  "authorUrl": "https://github.com/G-Chist/obsidian-graph-untangler-plugin",
+  "authorUrl": "https://github.com/G-Chist",
   "isDesktopOnly": false
 }
