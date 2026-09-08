@@ -1,8 +1,15 @@
-const { Plugin, Notice } = require("obsidian");
+const { Plugin, PluginSettingTab, Setting, Notice } = require("obsidian");
+
+const DEFAULT_SETTINGS = {
+  durationSec: 30,
+  periodMs: 1000,
+  peakStrength: 10000,
+};
 
 module.exports = class GraphUntanglerPlugin extends Plugin {
   async onload() {
     this.stopped = false;
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 
     this.addCommand({
       id: "untangle-graph",
@@ -18,6 +25,8 @@ module.exports = class GraphUntanglerPlugin extends Plugin {
         new Notice("Untangling stopped");
       },
     });
+
+    this.addSettingTab(new GraphUntanglerSettingTab(this.app, this));
   }
 
   getGraphLeaf() {
@@ -55,7 +64,9 @@ module.exports = class GraphUntanglerPlugin extends Plugin {
     slider.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
-  async untangle(durationMs = 30000, periodMs = 1000, peakStrength = 10000) {
+  async untangle() {
+    const { durationSec, periodMs, peakStrength } = this.settings;
+    const durationMs = durationSec * 1000;
     this.stopped = false;
 
     const leaf = this.getGraphLeaf();
@@ -123,4 +134,59 @@ module.exports = class GraphUntanglerPlugin extends Plugin {
   }
 };
 
+class GraphUntanglerSettingTab extends PluginSettingTab {
+  constructor(app, plugin) {
+    super(app, plugin);
+    this.plugin = plugin;
+  }
+
+  display() {
+    const { containerEl } = this;
+    containerEl.empty();
+
+    new Setting(containerEl)
+      .setName("Duration")
+      .setDesc("Total animation time in seconds.")
+      .addSlider((slider) =>
+        slider
+          .setLimits(5, 120, 1)
+          .setValue(this.plugin.settings.durationSec)
+          .setDynamicTooltip()
+          .onChange(async (value) => {
+            this.plugin.settings.durationSec = value;
+            await this.plugin.saveData(this.plugin.settings);
+          })
+      );
+
+    new Setting(containerEl)
+      .setName("Period")
+      .setDesc("Sine wave period in milliseconds (time per pulse cycle).")
+      .addSlider((slider) =>
+        slider
+          .setLimits(100, 5000, 100)
+          .setValue(this.plugin.settings.periodMs)
+          .setDynamicTooltip()
+          .onChange(async (value) => {
+            this.plugin.settings.periodMs = value;
+            await this.plugin.saveData(this.plugin.settings);
+          })
+      );
+
+    new Setting(containerEl)
+      .setName("Peak strength")
+      .setDesc("Maximum link force strength during pulsing.")
+      .addSlider((slider) =>
+        slider
+          .setLimits(1000, 50000, 1000)
+          .setValue(this.plugin.settings.peakStrength)
+          .setDynamicTooltip()
+          .onChange(async (value) => {
+            this.plugin.settings.peakStrength = value;
+            await this.plugin.saveData(this.plugin.settings);
+          })
+      );
+  }
+}
+
+/* nosourcemap */
 /* nosourcemap */
